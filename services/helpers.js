@@ -1,4 +1,4 @@
-import {
+  import {
   unixToLocalTime,
   kmToMiles,
   mpsToMph,

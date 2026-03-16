@@ -11,9 +11,10 @@ import { LoadingScreen } from "../components/LoadingScreen";
 import { ErrorScreen } from "../components/ErrorScreen";
 
 import styles from "../styles/Home.module.css";
+import villeData from "../data/ville.json";
 
 export const App = () => {
-  const [cityInput, setCityInput] = useState("Riga");
+  const [cityInput, setCityInput] = useState(villeData.defaultCity);
   const [triggerFetch, setTriggerFetch] = useState(true);
   const [weatherData, setWeatherData] = useState();
   const [unitSystem, setUnitSystem] = useState("metric");
@@ -29,7 +30,18 @@ export const App = () => {
       setWeatherData({ ...data });
       setCityInput("");
     };
+
+  // appel initial
+  getData();
+
+  // rafraîchissement toutes les 1h
+  const interval = setInterval(() => {
     getData();
+  }, 3600 * 1000); // 1h
+
+  // nettoyage quand le composant est détruit
+  return () => clearInterval(interval);
+
   }, [triggerFetch]);
 
   const changeSystem = () =>
@@ -40,29 +52,16 @@ export const App = () => {
   return weatherData && !weatherData.message ? (
     <div className={styles.wrapper}>
       <MainCard
-        city={weatherData.name}
-        country={weatherData.sys.country}
-        description={weatherData.weather[0].description}
-        iconName={weatherData.weather[0].icon}
+        city={weatherData.timezone} 
+        country={weatherData.timezone}
+        description={weatherData.timezone_abbreviation}
+        //iconName={weatherData.hourly_units.temperature}
         unitSystem={unitSystem}
         weatherData={weatherData}
       />
       <ContentBox>
         <Header>
           <DateAndTime weatherData={weatherData} unitSystem={unitSystem} />
-          <Search
-            placeHolder="Search a city..."
-            value={cityInput}
-            onFocus={(e) => {
-              e.target.value = "";
-              e.target.placeholder = "";
-            }}
-            onChange={(e) => setCityInput(e.target.value)}
-            onKeyDown={(e) => {
-              e.keyCode === 13 && setTriggerFetch(!triggerFetch);
-              e.target.placeholder = "Search a city...";
-            }}
-          />
         </Header>
         <MetricsBox weatherData={weatherData} unitSystem={unitSystem} />
         <UnitSwitch onClick={changeSystem} unitSystem={unitSystem} />

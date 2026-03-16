@@ -4,35 +4,33 @@ import styles from "./MainCard.module.css";
 
 export const MainCard = ({
   city,
-  country,
   description,
-  iconName,
   unitSystem,
   weatherData,
 }) => {
   return (
     <div className={styles.wrapper}>
       <h1 className={styles.location}>
-        {city}, {country}
+        {city}
       </h1>
       <p className={styles.description}>{description}</p>
       <Image
         width="300px"
         height="300px"
-        src={`/icons/${iconName}.svg`}
+        src={`/images/image1.jpg`}
         alt="weatherIcon"
       />
       <h1 className={styles.temperature}>
         {unitSystem == "metric"
-          ? Math.round(weatherData.main.temp)
-          : Math.round(ctoF(weatherData.main.temp))}
+          ? Math.round(weatherData.latitude)
+          : Math.round(ctoF(weatherData.latitude))}
         °{unitSystem == "metric" ? "C" : "F"}
       </h1>
       <p>
         Feels like{" "}
         {unitSystem == "metric"
-          ? Math.round(weatherData.main.feels_like)
-          : Math.round(ctoF(weatherData.main.feels_like))}
+          ? Math.round(weatherData.longitude)
+          : Math.round(ctoF(weatherData.longitude))}
         °{unitSystem == "metric" ? "C" : "F"}
       </p>
     </div>

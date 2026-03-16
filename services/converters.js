@@ -32,10 +32,15 @@ export const degToCompass = (num) => {
   return arr[val % 16];
 };
 
-export const unixToLocalTime = (unixSeconds, timezone) => {
-  let time = new Date((unixSeconds + timezone) * 1000)
-    .toISOString()
-    .match(/(\d{2}:\d{2})/)[0];
 
-  return time.startsWith("0") ? time.substring(1) : time;
+export const unixToLocalTime = (unixTime, timezone) => {
+  if (!unixTime) return "-";
+
+  const date = new Date(unixTime * 1000); // API en secondes
+  if (isNaN(date)) return "-";
+
+  return new Intl.DateTimeFormat("fr-FR", {
+    timeZone: timezone,
+    hour12: false
+  }).format(date);
 };
