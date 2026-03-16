@@ -53,7 +53,7 @@ export const App = () => {
     <div className={styles.wrapper}>
       <MainCard
         city={weatherData.timezone} 
-        country={weatherData.timezone}
+        //country={weatherData.timezone}
         description={weatherData.timezone_abbreviation}
         //iconName={weatherData.hourly_units.temperature}
         unitSystem={unitSystem}

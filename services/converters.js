@@ -44,3 +44,12 @@ export const unixToLocalTime = (unixTime, timezone) => {
     hour12: false
   }).format(date);
 };
+
+const today = new Date();
+
+export const date = today.toLocaleDateString('fr-FR', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long'
+
+});
